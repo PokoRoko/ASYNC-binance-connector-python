@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameters
 
 
-def convert_trade_history(self, startTime: int, endTime: int, **kwargs):
+async def convert_trade_history(self, startTime: int, endTime: int, **kwargs):
     """Convert Trade History (USER_DATA)
 
     Get convert history for a specific account.
@@ -21,4 +21,4 @@ def convert_trade_history(self, startTime: int, endTime: int, **kwargs):
 
     url_path = "/sapi/v1/convert/tradeFlow"
     payload = {"startTime": startTime, "endTime": endTime, **kwargs}
-    return self.sign_request("GET", url_path, payload)
+    return await self.sign_request("GET", url_path, payload)

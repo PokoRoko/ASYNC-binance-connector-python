@@ -2,7 +2,7 @@ from binance.lib.utils import check_required_parameter
 from binance.lib.utils import check_required_parameters
 
 
-def new_order_test(self, symbol: str, side: str, type: str, **kwargs):
+async def new_order_test(self, symbol: str, side: str, type: str, **kwargs):
     """Test New Order (TRADE)
 
     Test new order creation and signature/recvWindow. Creates and validates a new order but does not send it into
@@ -31,10 +31,10 @@ def new_order_test(self, symbol: str, side: str, type: str, **kwargs):
     check_required_parameters([[symbol, "symbol"], [side, "side"], [type, "type"]])
     params = {"symbol": symbol, "side": side, "type": type, **kwargs}
     url_path = "/api/v3/order/test"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def new_order(self, symbol: str, side: str, type: str, **kwargs):
+async def new_order(self, symbol: str, side: str, type: str, **kwargs):
     """New Order (TRADE)
 
     Post a new order
@@ -63,10 +63,10 @@ def new_order(self, symbol: str, side: str, type: str, **kwargs):
     check_required_parameters([[symbol, "symbol"], [side, "side"], [type, "type"]])
     params = {"symbol": symbol, "side": side, "type": type, **kwargs}
     url_path = "/api/v3/order"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def cancel_order(self, symbol: str, **kwargs):
+async def cancel_order(self, symbol: str, **kwargs):
     """Cancel Order (TRADE)
 
     Cancel an active order.
@@ -87,10 +87,10 @@ def cancel_order(self, symbol: str, **kwargs):
 
     url_path = "/api/v3/order"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("DELETE", url_path, payload)
+    return await self.sign_request("DELETE", url_path, payload)
 
 
-def cancel_open_orders(self, symbol: str, **kwargs):
+async def cancel_open_orders(self, symbol: str, **kwargs):
     """Cancel all Open Orders on a Symbol (TRADE)
 
     Cancels all active orders on a symbol.
@@ -109,10 +109,10 @@ def cancel_open_orders(self, symbol: str, **kwargs):
 
     url_path = "/api/v3/openOrders"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("DELETE", url_path, payload)
+    return await self.sign_request("DELETE", url_path, payload)
 
 
-def get_order(self, symbol, **kwargs):
+async def get_order(self, symbol, **kwargs):
     """Query Order (USER_DATA)
 
     Check an order's status.
@@ -132,10 +132,10 @@ def get_order(self, symbol, **kwargs):
 
     url_path = "/api/v3/order"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", url_path, payload)
+    return await self.sign_request("GET", url_path, payload)
 
 
-def cancel_and_replace(
+async def cancel_and_replace(
     self, symbol: str, side: str, type: str, cancelReplaceMode: str, **kwargs
 ):
     """Cancel an Existing Order and Send a New Order (USER_DATA)
@@ -189,10 +189,10 @@ def cancel_and_replace(
         **kwargs,
     }
     url_path = "/api/v3/order/cancelReplace"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def get_open_orders(self, symbol=None, **kwargs):
+async def get_open_orders(self, symbol=None, **kwargs):
     """Current Open Orders (USER_DATA)
 
     Get all open orders on a symbol.
@@ -209,10 +209,10 @@ def get_open_orders(self, symbol=None, **kwargs):
 
     url_path = "/api/v3/openOrders"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", url_path, payload)
+    return await self.sign_request("GET", url_path, payload)
 
 
-def get_orders(self, symbol: str, **kwargs):
+async def get_orders(self, symbol: str, **kwargs):
     """All Orders (USER_DATA)
 
     Get all account orders; active, canceled, or filled.
@@ -234,10 +234,10 @@ def get_orders(self, symbol: str, **kwargs):
 
     url_path = "/api/v3/allOrders"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", url_path, payload)
+    return await self.sign_request("GET", url_path, payload)
 
 
-def new_oco_order(
+async def new_oco_order(
     self,
     symbol: str,
     side: str,
@@ -291,10 +291,10 @@ def new_oco_order(
     }
 
     url_path = "/api/v3/order/oco"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def cancel_oco_order(self, symbol, **kwargs):
+async def cancel_oco_order(self, symbol, **kwargs):
     """Cancel OCO (TRADE)
 
     Cancel an entire Order List
@@ -315,10 +315,10 @@ def cancel_oco_order(self, symbol, **kwargs):
 
     url_path = "/api/v3/orderList"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("DELETE", url_path, payload)
+    return await self.sign_request("DELETE", url_path, payload)
 
 
-def get_oco_order(self, **kwargs):
+async def get_oco_order(self, **kwargs):
     """Query OCO (USER_DATA)
 
     Retrieves a specific OCO based on provided optional parameters
@@ -333,10 +333,10 @@ def get_oco_order(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
     url_path = "/api/v3/orderList"
-    return self.sign_request("GET", url_path, {**kwargs})
+    return await self.sign_request("GET", url_path, {**kwargs})
 
 
-def get_oco_orders(self, **kwargs):
+async def get_oco_orders(self, **kwargs):
     """Query all OCO (USER_DATA)
 
     Retrieves all OCO based on provided optional parameters
@@ -354,10 +354,10 @@ def get_oco_orders(self, **kwargs):
     """
 
     url_path = "/api/v3/allOrderList"
-    return self.sign_request("GET", url_path, {**kwargs})
+    return await self.sign_request("GET", url_path, {**kwargs})
 
 
-def get_oco_open_orders(self, **kwargs):
+async def get_oco_open_orders(self, **kwargs):
     """Query Open OCO (USER_DATA)
 
     GET /api/v3/openOrderList
@@ -369,10 +369,10 @@ def get_oco_open_orders(self, **kwargs):
     """
 
     url_path = "/api/v3/openOrderList"
-    return self.sign_request("GET", url_path, {**kwargs})
+    return await self.sign_request("GET", url_path, {**kwargs})
 
 
-def account(self, **kwargs):
+async def account(self, **kwargs):
     """Account Information (USER_DATA)
 
     Get current account information
@@ -386,10 +386,10 @@ def account(self, **kwargs):
     """
 
     url_path = "/api/v3/account"
-    return self.sign_request("GET", url_path, {**kwargs})
+    return await self.sign_request("GET", url_path, {**kwargs})
 
 
-def my_trades(self, symbol: str, **kwargs):
+async def my_trades(self, symbol: str, **kwargs):
     """Account Trade List (USER_DATA)
 
     Get trades for a specific account and symbol.
@@ -413,10 +413,10 @@ def my_trades(self, symbol: str, **kwargs):
 
     url_path = "/api/v3/myTrades"
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", url_path, payload)
+    return await self.sign_request("GET", url_path, payload)
 
 
-def get_order_rate_limit(self, **kwargs):
+async def get_order_rate_limit(self, **kwargs):
     """Query Current Order Count Usage (TRADE)
 
     Displays the user's current order count usage for all intervals.
@@ -430,4 +430,4 @@ def get_order_rate_limit(self, **kwargs):
     """
 
     url_path = "/api/v3/rateLimit/order"
-    return self.sign_request("GET", url_path, {**kwargs})
+    return await self.sign_request("GET", url_path, {**kwargs})

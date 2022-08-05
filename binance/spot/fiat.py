@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameter
 
 
-def fiat_order_history(self, transactionType: int, **kwargs):
+async def fiat_order_history(self, transactionType: int, **kwargs):
     """Get Fiat Deposit/Withdraw History (USER_DATA)
 
     GET /sapi/v1/fiat/orders
@@ -20,10 +20,10 @@ def fiat_order_history(self, transactionType: int, **kwargs):
 
     check_required_parameter(transactionType, "transactionType")
     payload = {"transactionType": transactionType, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/fiat/orders", payload)
+    return await self.sign_request("GET", "/sapi/v1/fiat/orders", payload)
 
 
-def fiat_payment_history(self, transactionType: int, **kwargs):
+async def fiat_payment_history(self, transactionType: int, **kwargs):
     """Get Fiat Payments History (USER_DATA)
 
     GET /sapi/v1/fiat/payments
@@ -42,4 +42,4 @@ def fiat_payment_history(self, transactionType: int, **kwargs):
 
     check_required_parameter(transactionType, "transactionType")
     payload = {"transactionType": transactionType, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/fiat/payments", payload)
+    return await self.sign_request("GET", "/sapi/v1/fiat/payments", payload)

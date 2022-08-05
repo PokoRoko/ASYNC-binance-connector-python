@@ -1,10 +1,12 @@
 import hmac
 import json
+
+import aiohttp
 import logging
 import hashlib
 from json import JSONDecodeError
 
-import requests
+
 from .__version__ import __version__
 from binance.error import ClientError, ServerError
 from binance.lib.utils import get_timestamp
@@ -40,7 +42,7 @@ class API(object):
         self.show_limit_usage = False
         self.show_header = False
         self.proxies = None
-        self.session = requests.Session()
+        self.session = aiohttp.ClientSession()
         self.session.headers.update(
             {
                 "Content-Type": "application/json;charset=utf-8",
@@ -64,25 +66,25 @@ class API(object):
         self._logger = logging.getLogger(__name__)
         return
 
-    def query(self, url_path, payload=None):
-        return self.send_request("GET", url_path, payload=payload)
+    async def query(self, url_path, payload=None):
+        return await self.send_request("GET", url_path, payload=payload)
 
-    def limit_request(self, http_method, url_path, payload=None):
+    async def limit_request(self, http_method, url_path, payload=None):
         """limit request is for those endpoints require API key in the header"""
 
         check_required_parameter(self.key, "apiKey")
-        return self.send_request(http_method, url_path, payload=payload)
+        return await self.send_request(http_method, url_path, payload=payload)
 
-    def sign_request(self, http_method, url_path, payload=None):
+    async def sign_request(self, http_method, url_path, payload=None):
         if payload is None:
             payload = {}
         payload["timestamp"] = get_timestamp()
         query_string = self._prepare_params(payload)
         signature = self._get_sign(query_string)
         payload["signature"] = signature
-        return self.send_request(http_method, url_path, payload)
+        return await self.send_request(http_method, url_path, payload)
 
-    def limited_encoded_sign_request(self, http_method, url_path, payload=None):
+    async def limited_encoded_sign_request(self, http_method, url_path, payload=None):
         """This is used for some endpoints has special symbol in the url.
         In some endpoints these symbols should not encoded
         - @
@@ -97,9 +99,9 @@ class API(object):
         query_string = self._prepare_params(payload)
         signature = self._get_sign(query_string)
         url_path = url_path + "?" + query_string + "&signature=" + signature
-        return self.send_request(http_method, url_path)
+        return await self.send_request(http_method, url_path)
 
-    def send_request(self, http_method, url_path, payload=None):
+    async def send_request(self, http_method, url_path, payload=None):
         if payload is None:
             payload = {}
         url = self.base_url + url_path
@@ -109,17 +111,18 @@ class API(object):
                 "url": url,
                 "params": self._prepare_params(payload),
                 "timeout": self.timeout,
-                "proxies": self.proxies,
+                # "proxies": self.proxies,
             }
         )
-        response = self._dispatch_request(http_method)(**params)
-        self._logger.debug("raw response from server:" + response.text)
-        self._handle_exception(response)
-
+        res = self._dispatch_request(http_method)(**params)
+        # self._logger.debug("raw response from server:" + response.text)
+        # self._handle_exception(response)
+        response = await res
         try:
-            data = response.json()
+            data = await response.json()
         except ValueError:
             data = response.text
+        await self.session.close()
         result = {}
 
         if self.show_limit_usage:

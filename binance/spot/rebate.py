@@ -1,4 +1,4 @@
-def rebate_spot_history(self, **kwargs):
+async def rebate_spot_history(self, **kwargs):
     """Get Spot Rebate History Records (USER_DATA)
 
     GET /sapi/v1/rebate/taxQuery
@@ -12,4 +12,4 @@ def rebate_spot_history(self, **kwargs):
       recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/rebate/taxQuery", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/rebate/taxQuery", kwargs)

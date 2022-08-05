@@ -1,4 +1,4 @@
-def pay_history(self, **kwargs):
+async def pay_history(self, **kwargs):
     """Get Pay Trade History (USER_DATA)
 
     GET /sapi/v1/pay/transactions
@@ -12,4 +12,4 @@ def pay_history(self, **kwargs):
       recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/pay/transactions", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/pay/transactions", kwargs)

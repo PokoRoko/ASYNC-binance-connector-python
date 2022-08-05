@@ -2,7 +2,7 @@ from binance.lib.utils import check_required_parameter
 from binance.lib.utils import check_required_parameters
 
 
-def savings_flexible_products(self, **kwargs):
+async def savings_flexible_products(self, **kwargs):
     """Get Flexible Product List (USER_DATA)
 
     GET /sapi/v1/lending/daily/product/list
@@ -18,10 +18,10 @@ def savings_flexible_products(self, **kwargs):
 
     """
 
-    return self.sign_request("GET", "/sapi/v1/lending/daily/product/list", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/lending/daily/product/list", kwargs)
 
 
-def savings_flexible_user_left_quota(self, productId: str, **kwargs):
+async def savings_flexible_user_left_quota(self, productId: str, **kwargs):
     """Get Left Daily Purchase Quota of Flexible Product (USER_DATA)
 
     GET /sapi/v1/lending/daily/userLeftQuota
@@ -37,10 +37,10 @@ def savings_flexible_user_left_quota(self, productId: str, **kwargs):
 
     check_required_parameter(productId, "productId")
     payload = {"productId": productId, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/lending/daily/userLeftQuota", payload)
+    return await self.sign_request("GET", "/sapi/v1/lending/daily/userLeftQuota", payload)
 
 
-def savings_purchase_flexible_product(self, productId: str, amount: float, **kwargs):
+async def savings_purchase_flexible_product(self, productId: str, amount: float, **kwargs):
     """POST Purchase Flexible Product (USER_DATA)
 
     POST /sapi/v1/lending/daily/purchase
@@ -57,10 +57,10 @@ def savings_purchase_flexible_product(self, productId: str, amount: float, **kwa
 
     check_required_parameters([[productId, "productId"], [amount, "amount"]])
     payload = {"productId": productId, "amount": amount, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/lending/daily/purchase", payload)
+    return await self.sign_request("POST", "/sapi/v1/lending/daily/purchase", payload)
 
 
-def savings_flexible_user_redemption_quota(self, productId: str, type: str, **kwargs):
+async def savings_flexible_user_redemption_quota(self, productId: str, type: str, **kwargs):
     """Get Left Daily Redemption Quota of Flexible Product (USER_DATA)
 
     GET /sapi/v1/lending/daily/userRedemptionQuota
@@ -76,12 +76,12 @@ def savings_flexible_user_redemption_quota(self, productId: str, type: str, **kw
 
     check_required_parameters([[productId, "productId"], [type, "type"]])
     payload = {"productId": productId, "type": type, **kwargs}
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v1/lending/daily/userRedemptionQuota", payload
     )
 
 
-def savings_flexible_redeem(self, productId: str, amount: float, type: str, **kwargs):
+async def savings_flexible_redeem(self, productId: str, amount: float, type: str, **kwargs):
     """Redeem Flexible Product (USER_DATA)
 
     POST /sapi/v1/lending/daily/redeem
@@ -100,10 +100,10 @@ def savings_flexible_redeem(self, productId: str, amount: float, type: str, **kw
         [[productId, "productId"], [amount, "amount"], [type, "type"]]
     )
     payload = {"productId": productId, "amount": amount, "type": type, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/lending/daily/redeem", payload)
+    return await self.sign_request("POST", "/sapi/v1/lending/daily/redeem", payload)
 
 
-def savings_flexible_product_position(self, **kwargs):
+async def savings_flexible_product_position(self, **kwargs):
     """Get Flexible Product Position (USER_DATA)
 
     GET /sapi/v1/lending/daily/token/position
@@ -115,10 +115,10 @@ def savings_flexible_product_position(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/lending/daily/token/position", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/lending/daily/token/position", kwargs)
 
 
-def savings_project_list(self, type: str, **kwargs):
+async def savings_project_list(self, type: str, **kwargs):
     """Get Fixed and Activity Project List(USER_DATA)
 
     GET /sapi/v1/lending/project/list
@@ -139,10 +139,10 @@ def savings_project_list(self, type: str, **kwargs):
 
     check_required_parameter(type, "type")
     payload = {"type": type, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/lending/project/list", payload)
+    return await self.sign_request("GET", "/sapi/v1/lending/project/list", payload)
 
 
-def savings_purchase_project(self, projectId: str, lot: int, **kwargs):
+async def savings_purchase_project(self, projectId: str, lot: int, **kwargs):
     """Purchase Fixed/Activity Project (USER_DATA)
 
     POST /sapi/v1/lending/customizedFixed/purchase
@@ -158,12 +158,12 @@ def savings_purchase_project(self, projectId: str, lot: int, **kwargs):
 
     check_required_parameters([[projectId, "projectId"], [lot, "lot"]])
     payload = {"projectId": projectId, "lot": lot, **kwargs}
-    return self.sign_request(
+    return await self.sign_request(
         "POST", "/sapi/v1/lending/customizedFixed/purchase", payload
     )
 
 
-def savings_project_position(self, asset: str, **kwargs):
+async def savings_project_position(self, asset: str, **kwargs):
     """Get Fixed/Activity Project Position  (USER_DATA)
 
     GET /sapi/v1/lending/project/position/list
@@ -180,10 +180,10 @@ def savings_project_position(self, asset: str, **kwargs):
 
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/lending/project/position/list", payload)
+    return await self.sign_request("GET", "/sapi/v1/lending/project/position/list", payload)
 
 
-def savings_account(self, **kwargs):
+async def savings_account(self, **kwargs):
     """Lending Account (USER_DATA)
 
     GET /sapi/v1/lending/union/account
@@ -194,10 +194,10 @@ def savings_account(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/lending/union/account", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/lending/union/account", kwargs)
 
 
-def savings_purchase_record(self, lendingType: str, **kwargs):
+async def savings_purchase_record(self, lendingType: str, **kwargs):
     """Get Purchase Record (USER_DATA)
 
     GET /sapi/v1/lending/union/purchaseRecord
@@ -217,10 +217,10 @@ def savings_purchase_record(self, lendingType: str, **kwargs):
 
     check_required_parameter(lendingType, "lendingType")
     payload = {"lendingType": lendingType, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/lending/union/purchaseRecord", payload)
+    return await self.sign_request("GET", "/sapi/v1/lending/union/purchaseRecord", payload)
 
 
-def savings_redemption_record(self, lendingType: str, **kwargs):
+async def savings_redemption_record(self, lendingType: str, **kwargs):
     """Get Redemption Record (USER_DATA)
 
     GET /sapi/v1/lending/union/redemptionRecord
@@ -240,10 +240,10 @@ def savings_redemption_record(self, lendingType: str, **kwargs):
 
     check_required_parameter(lendingType, "lendingType")
     payload = {"lendingType": lendingType, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/lending/union/redemptionRecord", payload)
+    return await self.sign_request("GET", "/sapi/v1/lending/union/redemptionRecord", payload)
 
 
-def savings_interest_history(self, lendingType: str, **kwargs):
+async def savings_interest_history(self, lendingType: str, **kwargs):
     """Get Interest History (USER_DATA)
 
     GET /sapi/v1/lending/union/interestHistory
@@ -263,10 +263,10 @@ def savings_interest_history(self, lendingType: str, **kwargs):
 
     check_required_parameter(lendingType, "lendingType")
     payload = {"lendingType": lendingType, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/lending/union/interestHistory", payload)
+    return await self.sign_request("GET", "/sapi/v1/lending/union/interestHistory", payload)
 
 
-def savings_change_position(self, projectId: str, lot: int, **kwargs):
+async def savings_change_position(self, projectId: str, lot: int, **kwargs):
     """Change Fixed/Activity Position to Daily Position(USER_DATA)
 
     POST /sapi/v1/lending/positionChanged
@@ -283,4 +283,4 @@ def savings_change_position(self, projectId: str, lot: int, **kwargs):
 
     check_required_parameters([[projectId, "projectId"], [lot, "lot"]])
     payload = {"projectId": projectId, "lot": lot, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/lending/positionChanged", payload)
+    return await self.sign_request("POST", "/sapi/v1/lending/positionChanged", payload)

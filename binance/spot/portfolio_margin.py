@@ -1,4 +1,4 @@
-def portfolio_margin_account(self, **kwargs):
+async def portfolio_margin_account(self, **kwargs):
     """Get Portfolio Margin Account Info (USER_DATA)
 
     GET /sapi/v1/portfolio/account
@@ -9,4 +9,4 @@ def portfolio_margin_account(self, **kwargs):
       recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/portfolio/account", {**kwargs})
+    return await self.sign_request("GET", "/sapi/v1/portfolio/account", {**kwargs})

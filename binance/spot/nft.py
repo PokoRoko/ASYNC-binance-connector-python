@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameter
 
 
-def nft_transaction_history(self, orderType: int, **kwargs):
+async def nft_transaction_history(self, orderType: int, **kwargs):
     """Get NFT Transaction History (USER_DATA)
 
     GET /sapi/v1/nft/history/transactions
@@ -19,10 +19,10 @@ def nft_transaction_history(self, orderType: int, **kwargs):
     """
     check_required_parameter(orderType, "orderType")
     params = {"orderType": orderType, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/nft/history/transactions", params)
+    return await self.sign_request("GET", "/sapi/v1/nft/history/transactions", params)
 
 
-def nft_deposit_history(self, **kwargs):
+async def nft_deposit_history(self, **kwargs):
     """Get NFT Deposit History(USER_DATA)
 
     GET /sapi/v1/nft/history/deposit
@@ -37,10 +37,10 @@ def nft_deposit_history(self, **kwargs):
       recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/nft/history/deposit", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/nft/history/deposit", kwargs)
 
 
-def nft_withdraw_history(self, **kwargs):
+async def nft_withdraw_history(self, **kwargs):
     """Get NFT Withdraw History (USER_DATA)
 
     GET /sapi/v1/nft/history/withdraw
@@ -55,10 +55,10 @@ def nft_withdraw_history(self, **kwargs):
       recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/nft/history/withdraw", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/nft/history/withdraw", kwargs)
 
 
-def nft_asset(self, **kwargs):
+async def nft_asset(self, **kwargs):
     """Get NFT Asset (USER_DATA)
 
     GET /sapi/v1/nft/user/getAsset
@@ -71,4 +71,4 @@ def nft_asset(self, **kwargs):
       recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/nft/user/getAsset", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/nft/user/getAsset", kwargs)

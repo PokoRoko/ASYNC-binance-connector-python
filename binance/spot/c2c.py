@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameter
 
 
-def c2c_trade_history(self, tradeType: str, **kwargs):
+async def c2c_trade_history(self, tradeType: str, **kwargs):
     """Get C2C Trade History (USER_DATA)
 
     GET /sapi/v1/c2c/orderMatch/listUserOrderHistory
@@ -21,6 +21,6 @@ def c2c_trade_history(self, tradeType: str, **kwargs):
     check_required_parameter(tradeType, "tradeType")
 
     payload = {"tradeType": tradeType, **kwargs}
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v1/c2c/orderMatch/listUserOrderHistory", payload
     )

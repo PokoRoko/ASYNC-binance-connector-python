@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameters
 
 
-def blvt_info(self, tokenName: str = None):
+async def blvt_info(self, tokenName: str = None):
     """Get BLVT Info (MARKET_DATA)
 
     GET /sapi/v1/blvt/tokenInfo
@@ -13,10 +13,10 @@ def blvt_info(self, tokenName: str = None):
     """
     payload = {"tokenName": tokenName}
 
-    return self.limit_request("GET", "/sapi/v1/blvt/tokenInfo", payload)
+    return await self.limit_request("GET", "/sapi/v1/blvt/tokenInfo", payload)
 
 
-def subscribe_blvt(self, tokenName: str, cost, **kwargs):
+async def subscribe_blvt(self, tokenName: str, cost, **kwargs):
     """Subscribe BLVT (USER_DATA)
 
     POST /sapi/v1/blvt/subscribe (HMAC SHA256)
@@ -33,10 +33,10 @@ def subscribe_blvt(self, tokenName: str, cost, **kwargs):
     check_required_parameters([[tokenName, "tokenName"], [cost, "cost"]])
 
     payload = {"tokenName": tokenName, "cost": cost, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/blvt/subscribe", payload)
+    return await self.sign_request("POST", "/sapi/v1/blvt/subscribe", payload)
 
 
-def subscription_record(self, **kwargs):
+async def subscription_record(self, **kwargs):
     """Query Subscription Record (USER_DATA)
 
     GET /sapi/v1/blvt/subscribe/record (HMAC SHA256)
@@ -52,10 +52,10 @@ def subscription_record(self, **kwargs):
         recvWindow (int, optional)
     """
 
-    return self.sign_request("GET", "/sapi/v1/blvt/subscribe/record", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/blvt/subscribe/record", kwargs)
 
 
-def redeem_blvt(self, tokenName: str, amount, **kwargs):
+async def redeem_blvt(self, tokenName: str, amount, **kwargs):
     """Redeem BLVT (USER_DATA)
 
     POST /sapi/v1/blvt/redeem (HMAC SHA256)
@@ -72,10 +72,10 @@ def redeem_blvt(self, tokenName: str, amount, **kwargs):
     check_required_parameters([[tokenName, "tokenName"], [amount, "amount"]])
 
     payload = {"tokenName": tokenName, "amount": amount, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/blvt/redeem", payload)
+    return await self.sign_request("POST", "/sapi/v1/blvt/redeem", payload)
 
 
-def redemption_record(self, **kwargs):
+async def redemption_record(self, **kwargs):
     """Query Redemption Record (USER_DATA)
 
     GET /sapi/v1/blvt/redeem/record (HMAC SHA256)
@@ -91,10 +91,10 @@ def redemption_record(self, **kwargs):
         recvWindow (int, optional)
     """
 
-    return self.sign_request("GET", "/sapi/v1/blvt/redeem/record", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/blvt/redeem/record", kwargs)
 
 
-def user_limit_info(self, **kwargs):
+async def user_limit_info(self, **kwargs):
     """Get BLVT User Limit Info
 
     GET /sapi/v1/blvt/userLimit
@@ -106,4 +106,4 @@ def user_limit_info(self, **kwargs):
         recvWindow (int, optional)
     """
 
-    return self.sign_request("GET", "/sapi/v1/blvt/userLimit", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/blvt/userLimit", kwargs)

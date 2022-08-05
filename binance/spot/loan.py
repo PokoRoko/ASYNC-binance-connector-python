@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameter
 
 
-def loan_history(self, asset: str, **kwargs):
+async def loan_history(self, asset: str, **kwargs):
     """Get Crypto Loans Income History (USER_DATA)
 
     GET /sapi/v1/loan/income
@@ -23,4 +23,4 @@ def loan_history(self, asset: str, **kwargs):
     check_required_parameter(asset, "asset")
 
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/loan/income", payload)
+    return await self.sign_request("GET", "/sapi/v1/loan/income", payload)

@@ -3,7 +3,7 @@ from binance.lib.utils import check_required_parameters
 from binance.error import ParameterArgumentError
 
 
-def margin_transfer(self, asset: str, amount, type: int, **kwargs):
+async def margin_transfer(self, asset: str, amount, type: int, **kwargs):
     """Margin Account Transfer (MARGIN)
     Execute transfer between spot account and margin account.
 
@@ -23,10 +23,10 @@ def margin_transfer(self, asset: str, amount, type: int, **kwargs):
     check_required_parameters([[asset, "asset"], [amount, "amount"], [type, "type"]])
 
     payload = {"asset": asset, "amount": amount, "type": type, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/margin/transfer", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/transfer", payload)
 
 
-def margin_borrow(self, asset: str, amount, **kwargs):
+async def margin_borrow(self, asset: str, amount, **kwargs):
     """Margin Account Borrow (MARGIN)
     Apply for a loan.
 
@@ -46,10 +46,10 @@ def margin_borrow(self, asset: str, amount, **kwargs):
     check_required_parameters([[asset, "asset"], [amount, "amount"]])
 
     payload = {"asset": asset, "amount": amount, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/margin/loan", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/loan", payload)
 
 
-def margin_repay(self, asset: str, amount, **kwargs):
+async def margin_repay(self, asset: str, amount, **kwargs):
     """Margin Account Repay(MARGIN)
     Repay loan for margin account.
 
@@ -69,10 +69,10 @@ def margin_repay(self, asset: str, amount, **kwargs):
     check_required_parameters([[asset, "asset"], [amount, "amount"]])
 
     payload = {"asset": asset, "amount": amount, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/margin/repay", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/repay", payload)
 
 
-def margin_asset(self, asset: str):
+async def margin_asset(self, asset: str):
     """Query Margin Asset (MARKET_DATA)
 
     GET /sapi/v1/margin/asset
@@ -87,10 +87,10 @@ def margin_asset(self, asset: str):
     check_required_parameter(asset, "asset")
 
     payload = {"asset": asset}
-    return self.limit_request("GET", "/sapi/v1/margin/asset", payload)
+    return await self.limit_request("GET", "/sapi/v1/margin/asset", payload)
 
 
-def margin_pair(self, symbol: str):
+async def margin_pair(self, symbol: str):
     """Query Margin Pair (MARKET_DATA)
 
     GET /sapi/v1/margin/pair
@@ -104,10 +104,10 @@ def margin_pair(self, symbol: str):
     check_required_parameter(symbol, "symbol")
 
     payload = {"symbol": symbol}
-    return self.limit_request("GET", "/sapi/v1/margin/pair", payload)
+    return await self.limit_request("GET", "/sapi/v1/margin/pair", payload)
 
 
-def margin_all_assets(self):
+async def margin_all_assets(self):
     """Get All Margin Assets (MARKET_DATA)
 
     GET /sapi/v1/margin/allAssets
@@ -116,10 +116,10 @@ def margin_all_assets(self):
 
     """
 
-    return self.limit_request("GET", "/sapi/v1/margin/allAssets")
+    return await self.limit_request("GET", "/sapi/v1/margin/allAssets")
 
 
-def margin_all_pairs(self):
+async def margin_all_pairs(self):
     """Get All Margin Pairs (MARKET_DATA)
 
     GET /sapi/v1/margin/allPairs
@@ -128,10 +128,10 @@ def margin_all_pairs(self):
 
     """
 
-    return self.limit_request("GET", "/sapi/v1/margin/allPairs")
+    return await self.limit_request("GET", "/sapi/v1/margin/allPairs")
 
 
-def margin_pair_index(self, symbol: str, **kwargs):
+async def margin_pair_index(self, symbol: str, **kwargs):
     """Query Margin PriceIndex (MARKET_DATA)
 
     GET /sapi/v1/margin/priceIndex
@@ -144,10 +144,10 @@ def margin_pair_index(self, symbol: str, **kwargs):
 
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.limit_request("GET", "/sapi/v1/margin/priceIndex", payload)
+    return await self.limit_request("GET", "/sapi/v1/margin/priceIndex", payload)
 
 
-def new_margin_order(self, symbol: str, side: str, type: str, **kwargs):
+async def new_margin_order(self, symbol: str, side: str, type: str, **kwargs):
     """Margin Account New Order (TRADE)
 
     Post a new order for margin account.
@@ -184,10 +184,10 @@ def new_margin_order(self, symbol: str, side: str, type: str, **kwargs):
     )
 
     payload = {"symbol": symbol, "side": side, "type": type, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/margin/order", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/order", payload)
 
 
-def cancel_margin_order(self, symbol: str, **kwargs):
+async def cancel_margin_order(self, symbol: str, **kwargs):
     """Margin Account Cancel Order (TRADE)
 
      Cancel an active order for margin account.
@@ -207,10 +207,10 @@ def cancel_margin_order(self, symbol: str, **kwargs):
     """
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("DELETE", "/sapi/v1/margin/order", payload)
+    return await self.sign_request("DELETE", "/sapi/v1/margin/order", payload)
 
 
-def margin_transfer_history(self, asset: str, **kwargs):
+async def margin_transfer_history(self, asset: str, **kwargs):
     """Get Transfer History (USER_DATA)
 
     GET /sapi/v1/margin/transfer
@@ -230,10 +230,10 @@ def margin_transfer_history(self, asset: str, **kwargs):
     """
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/transfer", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/transfer", payload)
 
 
-def margin_load_record(self, asset: str, **kwargs):
+async def margin_load_record(self, asset: str, **kwargs):
     """Query Loan Record (USER_DATA)
 
     GET /sapi/v1/margin/loan
@@ -255,10 +255,10 @@ def margin_load_record(self, asset: str, **kwargs):
 
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/loan", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/loan", payload)
 
 
-def margin_repay_record(self, asset: str, **kwargs):
+async def margin_repay_record(self, asset: str, **kwargs):
     """Query Repay Record (USER_DATA)
 
     GET /sapi/v1/margin/repay
@@ -280,10 +280,10 @@ def margin_repay_record(self, asset: str, **kwargs):
 
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/repay", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/repay", payload)
 
 
-def margin_interest_history(self, **kwargs):
+async def margin_interest_history(self, **kwargs):
     """Get Interest History (USER_DATA)
 
     GET /sapi/v1/margin/interestHistory
@@ -301,10 +301,10 @@ def margin_interest_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/interestHistory", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/interestHistory", kwargs)
 
 
-def margin_force_liquidation_record(self, **kwargs):
+async def margin_force_liquidation_record(self, **kwargs):
     """Get Force Liquidation Record (USER_DATA)
 
     GET /sapi/v1/margin/forceLiquidationRec
@@ -320,10 +320,10 @@ def margin_force_liquidation_record(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/forceLiquidationRec", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/forceLiquidationRec", kwargs)
 
 
-def margin_account(self, **kwargs):
+async def margin_account(self, **kwargs):
     """Query Cross Margin Account Details (USER_DATA)
 
     GET /sapi/v1/margin/account
@@ -334,10 +334,10 @@ def margin_account(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/account", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/account", kwargs)
 
 
-def margin_order(self, symbol: str, **kwargs):
+async def margin_order(self, symbol: str, **kwargs):
     """Query Margin Account's Order (USER_DATA)
 
     GET /sapi/v1/margin/order
@@ -355,10 +355,10 @@ def margin_order(self, symbol: str, **kwargs):
 
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/order", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/order", payload)
 
 
-def margin_open_orders(self, **kwargs):
+async def margin_open_orders(self, **kwargs):
     """Query Margin Account's Open Order (USER_DATA)
 
     GET /sapi/v1/margin/openOrders
@@ -371,10 +371,10 @@ def margin_open_orders(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/openOrders", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/openOrders", kwargs)
 
 
-def margin_open_orders_cancellation(self, symbol: str, **kwargs):
+async def margin_open_orders_cancellation(self, symbol: str, **kwargs):
     """Margin Account Cancel all Open Orders on a Symbol (USER_DATA)
 
     DELETE /sapi/v1/margin/openOrders
@@ -390,10 +390,10 @@ def margin_open_orders_cancellation(self, symbol: str, **kwargs):
 
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("DELETE", "/sapi/v1/margin/openOrders", payload)
+    return await self.sign_request("DELETE", "/sapi/v1/margin/openOrders", payload)
 
 
-def margin_all_orders(self, symbol: str, **kwargs):
+async def margin_all_orders(self, symbol: str, **kwargs):
     """Query Margin Account's All Orders (USER_DATA)
 
     GET /sapi/v1/margin/allOrders
@@ -413,10 +413,10 @@ def margin_all_orders(self, symbol: str, **kwargs):
 
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/allOrders", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/allOrders", payload)
 
 
-def margin_my_trades(self, symbol: str, **kwargs):
+async def margin_my_trades(self, symbol: str, **kwargs):
     """Query Margin Account's Trade List (USER_DATA)
 
     GET /sapi/v1/margin/myTrades
@@ -438,10 +438,10 @@ def margin_my_trades(self, symbol: str, **kwargs):
 
     payload = {"symbol": symbol, **kwargs}
 
-    return self.sign_request("GET", "/sapi/v1/margin/myTrades", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/myTrades", payload)
 
 
-def margin_max_borrowable(self, asset: str, **kwargs):
+async def margin_max_borrowable(self, asset: str, **kwargs):
     """Query Max Borrow (USER_DATA)
 
     GET /sapi/v1/margin/maxBorrowable
@@ -457,10 +457,10 @@ def margin_max_borrowable(self, asset: str, **kwargs):
 
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/maxBorrowable", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/maxBorrowable", payload)
 
 
-def margin_max_transferable(self, asset: str, **kwargs):
+async def margin_max_transferable(self, asset: str, **kwargs):
     """Query Max Transfer-Out Amount (USER_DATA)
 
     GET /sapi/v1/margin/maxTransferable
@@ -476,10 +476,10 @@ def margin_max_transferable(self, asset: str, **kwargs):
 
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/maxTransferable", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/maxTransferable", payload)
 
 
-def isolated_margin_transfer(
+async def isolated_margin_transfer(
     self, asset: str, symbol: str, transFrom: str, transTo: str, amount, **kwargs
 ):
     """Isolated Margin Account Transfer (MARGIN)
@@ -516,10 +516,10 @@ def isolated_margin_transfer(
         "amount": amount,
         **kwargs,
     }
-    return self.sign_request("POST", "/sapi/v1/margin/isolated/transfer", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/isolated/transfer", payload)
 
 
-def isolated_margin_transfer_history(self, symbol: str, **kwargs):
+async def isolated_margin_transfer_history(self, symbol: str, **kwargs):
     """Get Isolated Margin Transfer History (USER_DATA)
 
     GET /sapi/v1/margin/isolated/transfer
@@ -542,10 +542,10 @@ def isolated_margin_transfer_history(self, symbol: str, **kwargs):
     check_required_parameter(symbol, "symbol")
 
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/isolated/transfer", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolated/transfer", payload)
 
 
-def isolated_margin_account(self, **kwargs):
+async def isolated_margin_account(self, **kwargs):
     """Query Isolated Margin Account Info (USER_DATA)
 
     GET /sapi/v1/margin/isolated/account
@@ -557,10 +557,10 @@ def isolated_margin_account(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/isolated/account", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolated/account", kwargs)
 
 
-def isolated_margin_pair(self, symbol: str, **kwargs):
+async def isolated_margin_pair(self, symbol: str, **kwargs):
     """Query Isolated Margin Symbol (USER_DATA)
 
     GET /sapi/v1/margin/isolated/pair
@@ -577,10 +577,10 @@ def isolated_margin_pair(self, symbol: str, **kwargs):
 
     payload = {"symbol": symbol, **kwargs}
 
-    return self.sign_request("GET", "/sapi/v1/margin/isolated/pair", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolated/pair", payload)
 
 
-def isolated_margin_all_pairs(self, **kwargs):
+async def isolated_margin_all_pairs(self, **kwargs):
     """Get All Isolated Margin Symbol(USER_DATA)
 
     GET /sapi/v1/margin/isolated/allPairs
@@ -591,10 +591,10 @@ def isolated_margin_all_pairs(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/isolated/allPairs", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolated/allPairs", kwargs)
 
 
-def toggle_bnbBurn(self, **kwargs):
+async def toggle_bnbBurn(self, **kwargs):
     """Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)
 
     POST /sapi/v1/bnbBurn
@@ -607,10 +607,10 @@ def toggle_bnbBurn(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("POST", "/sapi/v1/bnbBurn", kwargs)
+    return await self.sign_request("POST", "/sapi/v1/bnbBurn", kwargs)
 
 
-def bnbBurn_status(self, **kwargs):
+async def bnbBurn_status(self, **kwargs):
     """Get BNB Burn Status (USER_DATA)
 
     GET /sapi/v1/bnbBurn
@@ -621,10 +621,10 @@ def bnbBurn_status(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/bnbBurn", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/bnbBurn", kwargs)
 
 
-def margin_interest_rate_history(self, asset: str, **kwargs):
+async def margin_interest_rate_history(self, asset: str, **kwargs):
     """Get Margin Interest Rate History (USER_DATA)
 
     GET /sapi/v1/margin/interestRateHistory
@@ -642,10 +642,10 @@ def margin_interest_rate_history(self, asset: str, **kwargs):
 
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/interestRateHistory", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/interestRateHistory", payload)
 
 
-def new_margin_oco_order(
+async def new_margin_oco_order(
     self,
     symbol: str,
     side: str,
@@ -700,10 +700,10 @@ def new_margin_oco_order(
         "stopPrice": stopPrice,
         **kwargs,
     }
-    return self.sign_request("POST", "/sapi/v1/margin/order/oco", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/order/oco", payload)
 
 
-def cancel_margin_oco_order(
+async def cancel_margin_oco_order(
     self, symbol, orderListId: int = None, listClientOrderId: str = None, **kwargs
 ):
     """Margin Account Cancel OCO (TRADE)
@@ -730,10 +730,10 @@ def cancel_margin_oco_order(
         "listClientOrderId": listClientOrderId,
         **kwargs,
     }
-    return self.sign_request("DELETE", "/sapi/v1/margin/orderList", payload)
+    return await self.sign_request("DELETE", "/sapi/v1/margin/orderList", payload)
 
 
-def get_margin_oco_order(
+async def get_margin_oco_order(
     self, orderListId: int = None, origClientOrderId: str = None, **kwargs
 ):
     """Query Margin Account's OCO (USER_DATA)
@@ -759,10 +759,10 @@ def get_margin_oco_order(
         "origClientOrderId": origClientOrderId,
         **kwargs,
     }
-    return self.sign_request("GET", "/sapi/v1/margin/orderList", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/orderList", payload)
 
 
-def get_margin_oco_orders(self, **kwargs):
+async def get_margin_oco_orders(self, **kwargs):
     """Query Margin Account's all OCO (USER_DATA)
 
     Retrieves all OCO for a specific margin account based on provided optional parameters
@@ -786,10 +786,10 @@ def get_margin_oco_orders(self, **kwargs):
         raise ParameterArgumentError(
             "If fromId is supplied, neither startTime or endTime can be provided."
         )
-    return self.sign_request("GET", "/sapi/v1/margin/allOrderList", {**kwargs})
+    return await self.sign_request("GET", "/sapi/v1/margin/allOrderList", {**kwargs})
 
 
-def get_margin_open_oco_orders(self, **kwargs):
+async def get_margin_open_oco_orders(self, **kwargs):
     """Query Margin Account's Open OCO (USER_DATA)
 
     GET /sapi/v1/margin/openOrderList
@@ -803,10 +803,10 @@ def get_margin_open_oco_orders(self, **kwargs):
     """
     if kwargs.get("isIsolated"):
         check_required_parameter(kwargs.get("symbol"), "symbol")
-    return self.sign_request("GET", "/sapi/v1/margin/openOrderList", {**kwargs})
+    return await self.sign_request("GET", "/sapi/v1/margin/openOrderList", {**kwargs})
 
 
-def cancel_isolated_margin_account(self, symbol: str, **kwargs):
+async def cancel_isolated_margin_account(self, symbol: str, **kwargs):
     """Disable Isolated Margin Account (TRADE)
     Disable isolated margin account for a specific symbol. Each trading pair can only be deactivated once every 24 hours.
 
@@ -821,10 +821,10 @@ def cancel_isolated_margin_account(self, symbol: str, **kwargs):
     """
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("DELETE", "/sapi/v1/margin/isolated/account", payload)
+    return await self.sign_request("DELETE", "/sapi/v1/margin/isolated/account", payload)
 
 
-def enable_isolated_margin_account(self, symbol: str, **kwargs):
+async def enable_isolated_margin_account(self, symbol: str, **kwargs):
     """Enable Isolated Margin Account (TRADE)
     Enable isolated margin account for a specific symbol (Only supports activation of previously disabled accounts).
 
@@ -839,10 +839,10 @@ def enable_isolated_margin_account(self, symbol: str, **kwargs):
     """
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/margin/isolated/account", payload)
+    return await self.sign_request("POST", "/sapi/v1/margin/isolated/account", payload)
 
 
-def isolated_margin_account_limit(self, **kwargs):
+async def isolated_margin_account_limit(self, **kwargs):
     """Query Enabled Isolated Margin Account Limit (USER_DATA)
     Query enabled isolated margin account limit.
 
@@ -853,10 +853,10 @@ def isolated_margin_account_limit(self, **kwargs):
     Keyword Args:
         recvWindow (int, optional): The value cannot be greater than 60000
     """
-    return self.sign_request("GET", "/sapi/v1/margin/isolated/accountLimit", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolated/accountLimit", kwargs)
 
 
-def margin_fee(self, **kwargs):
+async def margin_fee(self, **kwargs):
     """Query Cross Margin Fee Data (USER_DATA)
     Get cross margin fee data collection with any vip level or user's current specific data as https://www.binance.com/en/margin-fee
 
@@ -869,10 +869,10 @@ def margin_fee(self, **kwargs):
         coin (str, optional)
         recvWindow (int, optional): The value cannot be greater than 60000
     """
-    return self.sign_request("GET", "/sapi/v1/margin/crossMarginData", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/crossMarginData", kwargs)
 
 
-def isolated_margin_fee(self, **kwargs):
+async def isolated_margin_fee(self, **kwargs):
     """Query Isolated Margin Fee Data (USER_DATA)
     Get isolated margin fee data collection with any vip level or user's current specific data as https://www.binance.com/en/margin-fee
 
@@ -885,10 +885,10 @@ def isolated_margin_fee(self, **kwargs):
         symbol (str, optional)
         recvWindow (int, optional): The value cannot be greater than 60000
     """
-    return self.sign_request("GET", "/sapi/v1/margin/isolatedMarginData", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolatedMarginData", kwargs)
 
 
-def isolated_margin_tier(self, symbol: str, **kwargs):
+async def isolated_margin_tier(self, symbol: str, **kwargs):
     """Query Isolated Margin Tier Data (USER_DATA)
     Get isolated margin tier data collection with any tier as https://www.binance.com/en/margin-data
 
@@ -904,10 +904,10 @@ def isolated_margin_tier(self, symbol: str, **kwargs):
     """
     check_required_parameter(symbol, "symbol")
     payload = {"symbol": symbol, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/margin/isolatedMarginTier", payload)
+    return await self.sign_request("GET", "/sapi/v1/margin/isolatedMarginTier", payload)
 
 
-def margin_order_usage(self, **kwargs):
+async def margin_order_usage(self, **kwargs):
     """Query Current Margin Order Count Usage (TRADE)
     Displays the user's current margin order count usage for all intervals.
 
@@ -921,10 +921,10 @@ def margin_order_usage(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/margin/rateLimit/order", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/margin/rateLimit/order", kwargs)
 
 
-def margin_dust_log(self, **kwargs):
+async def margin_dust_log(self, **kwargs):
     """Margin Dust Log (USER_DATA)
 
     Query the historical information of user's margin account small-value asset conversion BNB.
@@ -942,4 +942,4 @@ def margin_dust_log(self, **kwargs):
     """
 
     url_path = "/sapi/v1/margin/dribblet"
-    return self.sign_request("GET", url_path, {**kwargs})
+    return await self.sign_request("GET", url_path, {**kwargs})

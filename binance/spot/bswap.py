@@ -1,7 +1,7 @@
 from binance.lib.utils import check_required_parameters
 
 
-def bswap_pools(self):
+async def bswap_pools(self):
     """List All Swap Pools (MARKET_DATA)
     Get metadata about all swap pools.
 
@@ -11,10 +11,10 @@ def bswap_pools(self):
 
     """
 
-    return self.limit_request("GET", "/sapi/v1/bswap/pools", {})
+    return await self.limit_request("GET", "/sapi/v1/bswap/pools", {})
 
 
-def bswap_liquidity(self, **kwargs):
+async def bswap_liquidity(self, **kwargs):
     """Get liquidity information of a pool (USER_DATA)
     Get liquidity information and user share of a pool
 
@@ -27,10 +27,10 @@ def bswap_liquidity(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
 
     """
-    return self.sign_request("GET", "/sapi/v1/bswap/liquidity", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/bswap/liquidity", kwargs)
 
 
-def bswap_liquidity_add(self, poolId: int, asset: str, quantity: float, **kwargs):
+async def bswap_liquidity_add(self, poolId: int, asset: str, quantity: float, **kwargs):
     """Add Liquidity (TRADE)
     Add liquidity to a pool.
 
@@ -51,10 +51,10 @@ def bswap_liquidity_add(self, poolId: int, asset: str, quantity: float, **kwargs
     )
     payload = {"poolId": poolId, "asset": asset, "quantity": quantity, **kwargs}
 
-    return self.sign_request("POST", "/sapi/v1/bswap/liquidityAdd", payload)
+    return await self.sign_request("POST", "/sapi/v1/bswap/liquidityAdd", payload)
 
 
-def bswap_liquidity_remove(
+async def bswap_liquidity_remove(
     self, poolId: str, type: str, asset: list, shareAmount, **kwargs
 ):
     """Remove Liquidity (TRADE)
@@ -88,10 +88,10 @@ def bswap_liquidity_remove(
         **kwargs,
     }
 
-    return self.sign_request("POST", "/sapi/v1/bswap/liquidityRemove", payload)
+    return await self.sign_request("POST", "/sapi/v1/bswap/liquidityRemove", payload)
 
 
-def bswap_liquidity_operation_record(self, **kwargs):
+async def bswap_liquidity_operation_record(self, **kwargs):
     """Get Liquidity Operation Record (USER_DATA)
     Get liquidity operation (add/remove) records.
 
@@ -108,10 +108,10 @@ def bswap_liquidity_operation_record(self, **kwargs):
         limit (int, optional): default 3, max 100
         recvWindow (int, optional): The value cannot be greater than 60000
     """
-    return self.sign_request("GET", "/sapi/v1/bswap/liquidityOps", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/bswap/liquidityOps", kwargs)
 
 
-def bswap_request_quote(
+async def bswap_request_quote(
     self, quoteAsset: str, baseAsset: str, quoteQty: float, **kwargs
 ):
     """Request Quote (USER_DATA)
@@ -143,10 +143,10 @@ def bswap_request_quote(
         **kwargs,
     }
 
-    return self.sign_request("GET", "/sapi/v1/bswap/quote", payload)
+    return await self.sign_request("GET", "/sapi/v1/bswap/quote", payload)
 
 
-def bswap_swap(self, quoteAsset: str, baseAsset: str, quoteQty: float, **kwargs):
+async def bswap_swap(self, quoteAsset: str, baseAsset: str, quoteQty: float, **kwargs):
     """Swap (TRADE)
     Swap quoteAsset for baseAsset.
 
@@ -173,7 +173,7 @@ def bswap_swap(self, quoteAsset: str, baseAsset: str, quoteQty: float, **kwargs)
     return self.sign_request("POST", "/sapi/v1/bswap/swap", payload)
 
 
-def bswap_swap_history(self, **kwargs):
+async def bswap_swap_history(self, **kwargs):
     """Get Swap History (USER_DATA)
     Get swap history.
 
@@ -194,7 +194,7 @@ def bswap_swap_history(self, **kwargs):
     return self.sign_request("GET", "/sapi/v1/bswap/swap", kwargs)
 
 
-def bswap_pool_configure(self, **kwargs):
+async def bswap_pool_configure(self, **kwargs):
     """Get Pool Configure (USER_DATA)
 
     GET /sapi/v1/bswap/poolConfigure
@@ -208,7 +208,7 @@ def bswap_pool_configure(self, **kwargs):
     return self.sign_request("GET", "/sapi/v1/bswap/poolConfigure", kwargs)
 
 
-def bswap_add_liquidity_preview(
+async def bswap_add_liquidity_preview(
     self, poolId: int, type: str, quoteAsset: str, quoteQty: float, **kwargs
 ):
     """Add Liquidity Preview (USER_DATA)
@@ -244,7 +244,7 @@ def bswap_add_liquidity_preview(
     return self.sign_request("GET", "/sapi/v1/bswap/addLiquidityPreview", payload)
 
 
-def bswap_remove_liquidity_preview(
+async def bswap_remove_liquidity_preview(
     self, poolId: int, type: str, quoteAsset: str, shareAmount: float, **kwargs
 ):
     """Remove Liquidity Preview (USER_DATA)
@@ -280,7 +280,7 @@ def bswap_remove_liquidity_preview(
     return self.sign_request("GET", "/sapi/v1/bswap/removeLiquidityPreview", payload)
 
 
-def bswap_unclaimed_rewards(self, **kwargs):
+async def bswap_unclaimed_rewards(self, **kwargs):
     """Get Unclaimed Rewards Record (USER_DATA)
     Get unclaimed rewards record.
 
@@ -296,7 +296,7 @@ def bswap_unclaimed_rewards(self, **kwargs):
     return self.sign_request("GET", "/sapi/v1/bswap/unclaimedRewards", kwargs)
 
 
-def bswap_claim_rewards(self, **kwargs):
+async def bswap_claim_rewards(self, **kwargs):
     """Claim rewards (TRADE)
     Claim swap rewards or liquidity rewards
 
@@ -312,7 +312,7 @@ def bswap_claim_rewards(self, **kwargs):
     return self.sign_request("POST", "/sapi/v1/bswap/claimRewards", kwargs)
 
 
-def bswap_claimed_rewards(self, **kwargs):
+async def bswap_claimed_rewards(self, **kwargs):
     """Get Claimed History (USER_DATA)
     Get history of claimed rewards.
 

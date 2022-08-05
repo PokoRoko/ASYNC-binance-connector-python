@@ -2,7 +2,7 @@ from binance.lib.utils import check_required_parameters
 from binance.lib.utils import check_required_parameter
 
 
-def mining_algo_list(self):
+async def mining_algo_list(self):
     """Acquiring Algorithm (MARKET_DATA)
 
     GET /sapi/v1/mining/pub/algoList
@@ -11,10 +11,10 @@ def mining_algo_list(self):
 
     """
 
-    return self.limit_request("GET", "/sapi/v1/mining/pub/algoList")
+    return await self.limit_request("GET", "/sapi/v1/mining/pub/algoList")
 
 
-def mining_coin_list(self):
+async def mining_coin_list(self):
     """Acquiring CoinName (MARKET_DATA)
 
     GET /sapi/v1/mining/pub/coinList
@@ -23,10 +23,10 @@ def mining_coin_list(self):
 
     """
 
-    return self.limit_request("GET", "/sapi/v1/mining/pub/coinList")
+    return await self.limit_request("GET", "/sapi/v1/mining/pub/coinList")
 
 
-def mining_worker(self, algo: str, userName: str, workerName: str, **kwargs):
+async def mining_worker(self, algo: str, userName: str, workerName: str, **kwargs):
     """Request for Detail Miner List (USER_DATA)
 
     GET /sapi/v1/mining/worker/detail
@@ -45,10 +45,10 @@ def mining_worker(self, algo: str, userName: str, workerName: str, **kwargs):
     )
 
     payload = {"algo": algo, "userName": userName, "workerName": workerName, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/worker/detail", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/worker/detail", payload)
 
 
-def mining_worker_list(self, algo: str, userName: str, **kwargs):
+async def mining_worker_list(self, algo: str, userName: str, **kwargs):
     """Request for Miner List (USER_DATA)
 
     GET /sapi/v1/mining/worker/list
@@ -70,10 +70,10 @@ def mining_worker_list(self, algo: str, userName: str, **kwargs):
     check_required_parameters([[algo, "algo"], [userName, "userName"]])
 
     payload = {"algo": algo, "userName": userName, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/worker/list", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/worker/list", payload)
 
 
-def mining_earnings_list(self, algo: str, userName: str, **kwargs):
+async def mining_earnings_list(self, algo: str, userName: str, **kwargs):
     """Revenue List (USER_DATA)
 
     GET /sapi/v1/mining/payment/list
@@ -94,10 +94,10 @@ def mining_earnings_list(self, algo: str, userName: str, **kwargs):
     check_required_parameters([[algo, "algo"], [userName, "userName"]])
 
     payload = {"algo": algo, "userName": userName, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/payment/list", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/payment/list", payload)
 
 
-def mining_bonus_list(self, algo: str, userName: str, **kwargs):
+async def mining_bonus_list(self, algo: str, userName: str, **kwargs):
     """Extra Bonus List (USER_DATA)
 
     GET /sapi/v1/mining/payment/other
@@ -118,10 +118,10 @@ def mining_bonus_list(self, algo: str, userName: str, **kwargs):
     check_required_parameters([[algo, "algo"], [userName, "userName"]])
 
     payload = {"algo": algo, "userName": userName, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/payment/other", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/payment/other", payload)
 
 
-def mining_statistics_list(self, algo: str, userName: str, **kwargs):
+async def mining_statistics_list(self, algo: str, userName: str, **kwargs):
     """Statistic List (USER_DATA)
 
     GET /sapi/v1/mining/statistics/user/status
@@ -138,10 +138,10 @@ def mining_statistics_list(self, algo: str, userName: str, **kwargs):
     check_required_parameters([[algo, "algo"], [userName, "userName"]])
 
     payload = {"algo": algo, "userName": userName, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/statistics/user/status", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/statistics/user/status", payload)
 
 
-def mining_account_list(self, algo: str, userName: str, **kwargs):
+async def mining_account_list(self, algo: str, userName: str, **kwargs):
     """Account List (USER_DATA)
 
     GET /sapi/v1/mining/statistics/user/list
@@ -158,10 +158,10 @@ def mining_account_list(self, algo: str, userName: str, **kwargs):
     check_required_parameters([[algo, "algo"], [userName, "userName"]])
 
     payload = {"algo": algo, "userName": userName, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/statistics/user/list", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/statistics/user/list", payload)
 
 
-def mining_hashrate_resale_request(
+async def mining_hashrate_resale_request(
     self,
     algo: str,
     userName: str,
@@ -208,10 +208,10 @@ def mining_hashrate_resale_request(
         "hashRate": hashRate,
         **kwargs,
     }
-    return self.sign_request("POST", "/sapi/v1/mining/hash-transfer/config", payload)
+    return await self.sign_request("POST", "/sapi/v1/mining/hash-transfer/config", payload)
 
 
-def mining_hashrate_resale_cancellation(self, configId: int, userName: str, **kwargs):
+async def mining_hashrate_resale_cancellation(self, configId: int, userName: str, **kwargs):
     """Cancel hashrate resale configuration(USER_DATA)
 
     POST /sapi/v1/mining/hash-transfer/config/cancel
@@ -228,12 +228,12 @@ def mining_hashrate_resale_cancellation(self, configId: int, userName: str, **kw
     check_required_parameters([[configId, "configId"], [userName, "userName"]])
 
     payload = {"configId": configId, "userName": userName, **kwargs}
-    return self.sign_request(
+    return await self.sign_request(
         "POST", "/sapi/v1/mining/hash-transfer/config/cancel", payload
     )
 
 
-def mining_hashrate_resale_list(self, **kwargs):
+async def mining_hashrate_resale_list(self, **kwargs):
     """Hashrate Resale List (USER_DATA)
 
     GET /sapi/v1/mining/hash-transfer/config/details/list
@@ -246,12 +246,12 @@ def mining_hashrate_resale_list(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v1/mining/hash-transfer/config/details/list", kwargs
     )
 
 
-def mining_hashrate_resale_details(self, configId: int, userName: str, **kwargs):
+async def mining_hashrate_resale_details(self, configId: int, userName: str, **kwargs):
     """Hashrate Resale Detail (USER_DATA)
 
     GET /sapi/v1/mining/hash-transfer/profit/details
@@ -269,12 +269,12 @@ def mining_hashrate_resale_details(self, configId: int, userName: str, **kwargs)
     check_required_parameters([[configId, "configId"], [userName, "userName"]])
 
     payload = {"configId": configId, "userName": userName, **kwargs}
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v1/mining/hash-transfer/profit/details", payload
     )
 
 
-def mining_account_earning(self, algo: str, **kwargs):
+async def mining_account_earning(self, algo: str, **kwargs):
     """Mining Account Earning (USER_DATA)
 
     GET /sapi/v1/mining/payment/uid
@@ -293,4 +293,4 @@ def mining_account_earning(self, algo: str, **kwargs):
     check_required_parameter(algo, "algo")
 
     payload = {"algo": algo, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/mining/payment/uid", payload)
+    return await self.sign_request("GET", "/sapi/v1/mining/payment/uid", payload)

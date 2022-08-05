@@ -4,7 +4,7 @@ from binance.lib.utils import check_enum_parameter
 from binance.lib.enums import TransferType
 
 
-def system_status(self):
+async def system_status(self):
     """System Status (System)
     Fetch system status.
 
@@ -13,10 +13,10 @@ def system_status(self):
     https://binance-docs.github.io/apidocs/spot/en/#system-status-sapi-system
     """
 
-    return self.query("/sapi/v1/system/status")
+    return await self.query("/sapi/v1/system/status")
 
 
-def coin_info(self, **kwargs):
+async def coin_info(self, **kwargs):
     """All Coins' Information (USER_DATA)
     Get information of coins (available for deposit and withdraw) for user.
 
@@ -28,10 +28,10 @@ def coin_info(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/capital/config/getall", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/capital/config/getall", kwargs)
 
 
-def account_snapshot(self, type: str, **kwargs):
+async def account_snapshot(self, type: str, **kwargs):
     """Daily Account Snapshot (USER_DATA)
 
     GET /sapi/v1/accountSnapshot
@@ -52,10 +52,10 @@ def account_snapshot(self, type: str, **kwargs):
 
     check_required_parameter(type, "type")
     payload = {"type": type, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/accountSnapshot", payload)
+    return await self.sign_request("GET", "/sapi/v1/accountSnapshot", payload)
 
 
-def disable_fast_withdraw(self, **kwargs):
+async def disable_fast_withdraw(self, **kwargs):
     """Disable Fast Withdraw Switch (USER_DATA)
 
     POST /sapi/v1/account/disableFastWithdrawSwitch
@@ -66,12 +66,12 @@ def disable_fast_withdraw(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request(
+    return await self.sign_request(
         "POST", "/sapi/v1/account/disableFastWithdrawSwitch", kwargs
     )
 
 
-def enable_fast_withdraw(self, **kwargs):
+async def enable_fast_withdraw(self, **kwargs):
     """Enable Fast Withdraw Switch (USER_DATA)
 
     POST /sapi/v1/account/enableFastWithdrawSwitch
@@ -82,12 +82,12 @@ def enable_fast_withdraw(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request(
+    return await self.sign_request(
         "POST", "/sapi/v1/account/enableFastWithdrawSwitch", kwargs
     )
 
 
-def withdraw(self, coin: str, amount: float, address: str, **kwargs):
+async def withdraw(self, coin: str, amount: float, address: str, **kwargs):
     """Withdraw (USER_DATA)
     Submit a withdraw request.
 
@@ -113,10 +113,10 @@ def withdraw(self, coin: str, amount: float, address: str, **kwargs):
         [[coin, "coin"], [amount, "amount"], [address, "address"]]
     )
     payload = {"coin": coin, "amount": amount, "address": address, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/capital/withdraw/apply", payload)
+    return await self.sign_request("POST", "/sapi/v1/capital/withdraw/apply", payload)
 
 
-def deposit_history(self, **kwargs):
+async def deposit_history(self, **kwargs):
     """Deposit History（supporting network） (USER_DATA)
     Fetch deposit history.
 
@@ -134,10 +134,10 @@ def deposit_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/capital/deposit/hisrec", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/capital/deposit/hisrec", kwargs)
 
 
-def withdraw_history(self, **kwargs):
+async def withdraw_history(self, **kwargs):
     """Withdraw History (supporting network) (USER_DATA)
     Fetch withdraw history.
 
@@ -157,10 +157,10 @@ def withdraw_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/capital/withdraw/history", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/capital/withdraw/history", kwargs)
 
 
-def deposit_address(self, coin: str, **kwargs):
+async def deposit_address(self, coin: str, **kwargs):
     """Deposit Address (supporting network) (USER_DATA)
     Fetch deposit address with network.
 
@@ -176,10 +176,10 @@ def deposit_address(self, coin: str, **kwargs):
 
     check_required_parameter(coin, "coin")
     payload = {"coin": coin, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/capital/deposit/address", payload)
+    return await self.sign_request("GET", "/sapi/v1/capital/deposit/address", payload)
 
 
-def account_status(self, **kwargs):
+async def account_status(self, **kwargs):
     """Account Status (USER_DATA)
     Fetch account status detail.
 
@@ -191,10 +191,10 @@ def account_status(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/account/status", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/account/status", kwargs)
 
 
-def api_trading_status(self, **kwargs):
+async def api_trading_status(self, **kwargs):
     """Account API Trading Status (USER_DATA)
     Fetch account api trading status detail.
 
@@ -206,10 +206,10 @@ def api_trading_status(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/account/apiTradingStatus", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/account/apiTradingStatus", kwargs)
 
 
-def dust_log(self, **kwargs):
+async def dust_log(self, **kwargs):
     """DustLog (USER_DATA)
     Fetch small amounts of assets exchanged BNB records.
 
@@ -221,10 +221,10 @@ def dust_log(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/asset/dribblet", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/asset/dribblet", kwargs)
 
 
-def user_universal_transfer(self, type: str, asset: str, amount: str, **kwargs):
+async def user_universal_transfer(self, type: str, asset: str, amount: str, **kwargs):
     """User Universal Transfer
 
     POST /sapi/v1/asset/transfer
@@ -243,10 +243,10 @@ def user_universal_transfer(self, type: str, asset: str, amount: str, **kwargs):
     check_required_parameters([[type, "type"], [asset, "asset"], [amount, "amount"]])
     check_enum_parameter(type, TransferType)
     payload = {"type": type, "asset": asset, "amount": amount, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/asset/transfer", payload)
+    return await self.sign_request("POST", "/sapi/v1/asset/transfer", payload)
 
 
-def user_universal_transfer_history(self, type: str, **kwargs):
+async def user_universal_transfer_history(self, type: str, **kwargs):
     """Query User Universal Transfer History
 
     GET /sapi/v1/asset/transfer
@@ -267,10 +267,10 @@ def user_universal_transfer_history(self, type: str, **kwargs):
     check_required_parameter(type, "type")
     check_enum_parameter(type, TransferType)
     payload = {"type": type, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/asset/transfer", payload)
+    return await self.sign_request("GET", "/sapi/v1/asset/transfer", payload)
 
 
-def transfer_dust(self, asset, **kwargs):
+async def transfer_dust(self, asset, **kwargs):
     """Dust Transfer (USER_DATA)
     Convert dust assets to BNB.
 
@@ -287,10 +287,10 @@ def transfer_dust(self, asset, **kwargs):
     check_required_parameter(asset, "asset")
     payload = {"asset": asset, **kwargs}
 
-    return self.sign_request("POST", "/sapi/v1/asset/dust", payload)
+    return await self.sign_request("POST", "/sapi/v1/asset/dust", payload)
 
 
-def asset_dividend_record(self, **kwargs):
+async def asset_dividend_record(self, **kwargs):
     """Asset Dividend Record (USER_DATA)
     Query asset dividend record.
 
@@ -306,10 +306,10 @@ def asset_dividend_record(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/asset/assetDividend", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/asset/assetDividend", kwargs)
 
 
-def asset_detail(self, **kwargs):
+async def asset_detail(self, **kwargs):
     """Asset Detail (USER_DATA)
     Fetch details of assets supported on Binance.
 
@@ -321,10 +321,10 @@ def asset_detail(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/asset/assetDetail", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/asset/assetDetail", kwargs)
 
 
-def trade_fee(self, **kwargs):
+async def trade_fee(self, **kwargs):
     """Trade Fee (USER_DATA)
     Fetch trade fee, values in percentage.
 
@@ -337,10 +337,10 @@ def trade_fee(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/asset/tradeFee", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/asset/tradeFee", kwargs)
 
 
-def funding_wallet(self, **kwargs):
+async def funding_wallet(self, **kwargs):
     """Funding Wallet (USER_DATA)
 
     POST /sapi/v1/asset/get-funding-asset
@@ -353,10 +353,10 @@ def funding_wallet(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("POST", "/sapi/v1/asset/get-funding-asset", kwargs)
+    return await self.sign_request("POST", "/sapi/v1/asset/get-funding-asset", kwargs)
 
 
-def user_asset(self, **kwargs):
+async def user_asset(self, **kwargs):
     """User Asset (USER_DATA)
 
     Get user assets, just for positive data.
@@ -374,10 +374,10 @@ def user_asset(self, **kwargs):
     """
 
     url_path = "/sapi/v3/asset/getUserAsset"
-    return self.sign_request("POST", url_path, {**kwargs})
+    return await self.sign_request("POST", url_path, {**kwargs})
 
 
-def api_key_permissions(self, **kwargs):
+async def api_key_permissions(self, **kwargs):
     """Get API Key Permission (USER_DATA)
 
     GET /sapi/v1/account/apiRestrictions
@@ -388,10 +388,10 @@ def api_key_permissions(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/account/apiRestrictions", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/account/apiRestrictions", kwargs)
 
 
-def bnb_convertible_assets(self, **kwargs):
+async def bnb_convertible_assets(self, **kwargs):
     """Get Assets That Can Be Converted Into BNB (USER_DATA)
 
     POST /sapi/v1/asset/dust-btc
@@ -402,4 +402,4 @@ def bnb_convertible_assets(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("POST", "/sapi/v1/asset/dust-btc", kwargs)
+    return await self.sign_request("POST", "/sapi/v1/asset/dust-btc", kwargs)

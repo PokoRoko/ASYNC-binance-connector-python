@@ -4,7 +4,7 @@ from binance.lib.utils import (
 from binance.lib.utils import check_required_parameters
 
 
-def staking_product_list(self, product: str, **kwargs):
+async def staking_product_list(self, product: str, **kwargs):
     """Get Staking Product List (USER_DATA)
 
     Get available Staking product list.
@@ -27,10 +27,10 @@ def staking_product_list(self, product: str, **kwargs):
 
     params = {"product": product, **kwargs}
     url_path = "/sapi/v1/staking/productList"
-    return self.sign_request("GET", url_path, params)
+    return await self.sign_request("GET", url_path, params)
 
 
-def staking_purchase_product(
+async def staking_purchase_product(
     self, product: str, productId: str, amount: float, **kwargs
 ):
     """Purchase Staking Product (USER_DATA)
@@ -55,10 +55,10 @@ def staking_purchase_product(
 
     params = {"product": product, "productId": productId, "amount": amount, **kwargs}
     url_path = "/sapi/v1/staking/purchase"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def staking_redeem_product(self, product: str, productId: str, **kwargs):
+async def staking_redeem_product(self, product: str, productId: str, **kwargs):
     """Redeem Staking Product (USER_DATA)
 
     Redeem Staking product. Locked staking and Locked DeFI staking belong to early redemption, redeeming in advance will result in loss of interest that you have earned.
@@ -81,10 +81,10 @@ def staking_redeem_product(self, product: str, productId: str, **kwargs):
 
     params = {"product": product, "productId": productId, **kwargs}
     url_path = "/sapi/v1/staking/redeem"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def staking_product_position(self, product: str, **kwargs):
+async def staking_product_position(self, product: str, **kwargs):
     """Get Staking Product Position (USER_DATA)
 
     Weight(IP): 1
@@ -106,10 +106,10 @@ def staking_product_position(self, product: str, **kwargs):
 
     params = {"product": product, **kwargs}
     url_path = "/sapi/v1/staking/position"
-    return self.sign_request("GET", url_path, params)
+    return await self.sign_request("GET", url_path, params)
 
 
-def staking_history(self, product: str, txnType: str, **kwargs):
+async def staking_history(self, product: str, txnType: str, **kwargs):
     """Get Staking History (USER_DATA)
 
     Weight(IP): 1
@@ -133,10 +133,10 @@ def staking_history(self, product: str, txnType: str, **kwargs):
 
     params = {"product": product, "txnType": txnType, **kwargs}
     url_path = "/sapi/v1/staking/stakingRecord"
-    return self.sign_request("GET", url_path, params)
+    return await self.sign_request("GET", url_path, params)
 
 
-def staking_set_auto_staking(
+async def staking_set_auto_staking(
     self, product: str, positionId: str, renewable: str, **kwargs
 ):
     """Set Auto Staking (USER_DATA)
@@ -167,10 +167,10 @@ def staking_set_auto_staking(
         **kwargs,
     }
     url_path = "/sapi/v1/staking/setAutoStaking"
-    return self.sign_request("POST", url_path, params)
+    return await self.sign_request("POST", url_path, params)
 
 
-def staking_product_quota(self, product: str, productId: str, **kwargs):
+async def staking_product_quota(self, product: str, productId: str, **kwargs):
     """Get Personal Left Quota of Staking Product (USER_DATA)
 
     Weight(IP): 1
@@ -189,4 +189,4 @@ def staking_product_quota(self, product: str, productId: str, **kwargs):
 
     params = {"product": product, "productId": productId, **kwargs}
     url_path = "/sapi/v1/staking/personalLeftQuota"
-    return self.sign_request("GET", url_path, params)
+    return await self.sign_request("GET", url_path, params)

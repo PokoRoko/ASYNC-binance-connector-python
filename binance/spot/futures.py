@@ -7,7 +7,7 @@ from binance.lib.utils import check_required_parameters
 """
 
 
-def futures_transfer(self, asset: str, amount: float, type: int, **kwargs):
+async def futures_transfer(self, asset: str, amount: float, type: int, **kwargs):
     """New Future Account Transfer (USER_DATA)
     Execute transfer between spot account and futures account.
 
@@ -29,10 +29,10 @@ def futures_transfer(self, asset: str, amount: float, type: int, **kwargs):
     check_required_parameters([[asset, "asset"], [amount, "amount"], [type, "type"]])
 
     payload = {"asset": asset, "amount": amount, "type": type, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/futures/transfer", payload)
+    return await self.sign_request("POST", "/sapi/v1/futures/transfer", payload)
 
 
-def futures_transfer_history(self, asset: str, startTime, **kwargs):
+async def futures_transfer_history(self, asset: str, startTime, **kwargs):
     """Get Future Account Transaction History List (USER_DATA)
 
     GET /sapi/v1/futures/transfer
@@ -52,10 +52,10 @@ def futures_transfer_history(self, asset: str, startTime, **kwargs):
     check_required_parameters([[asset, "asset"], [startTime, "startTime"]])
 
     payload = {"asset": asset, "startTime": startTime, **kwargs}
-    return self.sign_request("GET", "/sapi/v1/futures/transfer", payload)
+    return await self.sign_request("GET", "/sapi/v1/futures/transfer", payload)
 
 
-def futures_loan_borrow(self, coin: str, collateralCoin: str, **kwargs):
+async def futures_loan_borrow(self, coin: str, collateralCoin: str, **kwargs):
     """Borrow For Cross-Collateral (TRADE)
 
     POST /sapi/v1/futures/loan/borrow
@@ -74,10 +74,10 @@ def futures_loan_borrow(self, coin: str, collateralCoin: str, **kwargs):
     check_required_parameters([[coin, "coin"], [collateralCoin, "collateralCoin"]])
 
     payload = {"coin": coin, "collateralCoin": collateralCoin, **kwargs}
-    return self.sign_request("POST", "/sapi/v1/futures/loan/borrow", payload)
+    return await self.sign_request("POST", "/sapi/v1/futures/loan/borrow", payload)
 
 
-def futures_loan_borrow_history(self, **kwargs):
+async def futures_loan_borrow_history(self, **kwargs):
     """Cross-Collateral Borrow History (USER_DATA)
 
     GET /sapi/v1/futures/loan/borrow/history
@@ -92,10 +92,10 @@ def futures_loan_borrow_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/futures/loan/borrow/history", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/futures/loan/borrow/history", kwargs)
 
 
-def futures_loan_repay(self, coin: str, collateralCoin: str, amount: float, **kwargs):
+async def futures_loan_repay(self, coin: str, collateralCoin: str, amount: float, **kwargs):
     """Repay For Cross-Collateral (TRADE)
 
     POST /sapi/v1/futures/loan/repay
@@ -120,10 +120,10 @@ def futures_loan_repay(self, coin: str, collateralCoin: str, amount: float, **kw
         "amount": amount,
         **kwargs,
     }
-    return self.sign_request("POST", "/sapi/v1/futures/loan/repay", payload)
+    return await self.sign_request("POST", "/sapi/v1/futures/loan/repay", payload)
 
 
-def futures_loan_repay_history(self, **kwargs):
+async def futures_loan_repay_history(self, **kwargs):
     """Cross-Collateral Repayment History (USER_DATA)
 
     GET /sapi/v1/futures/loan/repay/history
@@ -138,10 +138,10 @@ def futures_loan_repay_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/futures/loan/repay/history", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/futures/loan/repay/history", kwargs)
 
 
-def futures_loan_wallet(self, **kwargs):
+async def futures_loan_wallet(self, **kwargs):
     """Cross-Collateral Wallet (USER_DATA)
 
     GET /sapi/v2/futures/loan/wallet
@@ -152,10 +152,10 @@ def futures_loan_wallet(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v2/futures/loan/wallet", kwargs)
+    return await self.sign_request("GET", "/sapi/v2/futures/loan/wallet", kwargs)
 
 
-def futures_loan_configs(self, **kwargs):
+async def futures_loan_configs(self, **kwargs):
     """Cross-Collateral Information (USER_DATA)
 
     GET /sapi/v2/futures/loan/configs
@@ -168,10 +168,10 @@ def futures_loan_configs(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v2/futures/loan/configs", kwargs)
+    return await self.sign_request("GET", "/sapi/v2/futures/loan/configs", kwargs)
 
 
-def futures_loan_calc_adjust_level(
+async def futures_loan_calc_adjust_level(
     self, loanCoin: str, collateralCoin: str, amount: float, direction: str, **kwargs
 ):
     """Calculate Rate After Adjust Cross-Collateral LTV (USER_DATA)
@@ -206,10 +206,10 @@ def futures_loan_calc_adjust_level(
         **kwargs,
     }
 
-    return self.sign_request("GET", "/sapi/v2/futures/loan/calcAdjustLevel", payload)
+    return await self.sign_request("GET", "/sapi/v2/futures/loan/calcAdjustLevel", payload)
 
 
-def futures_loan_calc_max_adjust_amount(
+async def futures_loan_calc_max_adjust_amount(
     self, loanCoin: str, collateralCoin: str, **kwargs
 ):
     """Get Max Amount for Adjust Cross-Collateral LTV (USER_DATA)
@@ -231,12 +231,12 @@ def futures_loan_calc_max_adjust_amount(
 
     payload = {"loanCoin": loanCoin, "collateralCoin": collateralCoin, **kwargs}
 
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v2/futures/loan/calcMaxAdjustAmount", payload
     )
 
 
-def futures_loan_adjust_collateral(
+async def futures_loan_adjust_collateral(
     self, loanCoin: str, collateralCoin: str, amount: float, direction: str, **kwargs
 ):
     """Adjust Cross-Collateral LTV (TRADE)
@@ -271,10 +271,10 @@ def futures_loan_adjust_collateral(
         **kwargs,
     }
 
-    return self.sign_request("POST", "/sapi/v2/futures/loan/adjustCollateral", payload)
+    return await self.sign_request("POST", "/sapi/v2/futures/loan/adjustCollateral", payload)
 
 
-def futures_loan_adjust_collateral_history(self, **kwargs):
+async def futures_loan_adjust_collateral_history(self, **kwargs):
     """Adjust Cross-Collateral LTV History (USER_DATA)
 
     GET /sapi/v1/futures/loan/adjustCollateral/history
@@ -290,12 +290,12 @@ def futures_loan_adjust_collateral_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v1/futures/loan/adjustCollateral/history", kwargs
     )
 
 
-def futures_loan_liquidation_history(self, **kwargs):
+async def futures_loan_liquidation_history(self, **kwargs):
     """Cross-Collateral Liquidation History (USER_DATA)
 
     GET /sapi/v1/futures/loan/liquidationHistory
@@ -311,10 +311,10 @@ def futures_loan_liquidation_history(self, **kwargs):
         recvWindow (int, optional): The value cannot be greater than 60000
     """
 
-    return self.sign_request("GET", "/sapi/v1/futures/loan/liquidationHistory", kwargs)
+    return await self.sign_request("GET", "/sapi/v1/futures/loan/liquidationHistory", kwargs)
 
 
-def futures_loan_collateral_repay_limit(self, coin: str, collateralCoin: str, **kwargs):
+async def futures_loan_collateral_repay_limit(self, coin: str, collateralCoin: str, **kwargs):
     """Check Collateral Repay Limit (USER_DATA)
 
     GET /sapi/v1/futures/loan/collateralRepayLimit
@@ -332,12 +332,12 @@ def futures_loan_collateral_repay_limit(self, coin: str, collateralCoin: str, **
 
     payload = {"coin": coin, "collateralCoin": collateralCoin, **kwargs}
 
-    return self.sign_request(
+    return await self.sign_request(
         "GET", "/sapi/v1/futures/loan/collateralRepayLimit", payload
     )
 
 
-def futures_loan_collateral_repay_quote(
+async def futures_loan_collateral_repay_quote(
     self, coin: str, collateralCoin: str, amount, **kwargs
 ):
     """Get Collateral Repay Quote (USER_DATA)
@@ -368,7 +368,7 @@ def futures_loan_collateral_repay_quote(
     return self.sign_request("GET", "/sapi/v1/futures/loan/collateralRepay", payload)
 
 
-def futures_loan_collateral_repay(self, quoteId: str, **kwargs):
+async def futures_loan_collateral_repay(self, quoteId: str, **kwargs):
     """Repay with Collateral (USER_DATA)
 
     POST /sapi/v1/futures/loan/collateralRepay
@@ -388,7 +388,7 @@ def futures_loan_collateral_repay(self, quoteId: str, **kwargs):
     return self.sign_request("POST", "/sapi/v1/futures/loan/collateralRepay", payload)
 
 
-def futures_loan_collateral_repay_result(self, quoteId: str, **kwargs):
+async def futures_loan_collateral_repay_result(self, quoteId: str, **kwargs):
     """Collateral Repayment Result (USER_DATA)
 
     GET /sapi/v1/futures/loan/collateralRepayResult
@@ -410,7 +410,7 @@ def futures_loan_collateral_repay_result(self, quoteId: str, **kwargs):
     )
 
 
-def futures_loan_interest_history(self, **kwargs):
+async def futures_loan_interest_history(self, **kwargs):
     """Cross-Collateral Interest History (USER_DATA)
 
     GET /sapi/v1/futures/loan/interestHistory

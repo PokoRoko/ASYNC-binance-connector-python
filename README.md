@@ -1,11 +1,9 @@
 # Binance Public API Connector Python
-[![PyPI version](https://img.shields.io/pypi/v/binance-connector)](https://pypi.python.org/pypi/binance-connector)
 [![Python version](https://img.shields.io/pypi/pyversions/binance-connector)](https://www.python.org/downloads/)
-[![Documentation](https://img.shields.io/badge/docs-latest-blue)](https://binance-connector.readthedocs.io/en/stable/)
 [![Code Style](https://img.shields.io/badge/code_style-black-black)](https://black.readthedocs.io/en/stable/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is a lightweight library that works as a connector to [Binance public API](https://github.com/binance/binance-spot-api-docs)
+
+This is a lightweight library that works as a ASYNC connector to [Binance public API](https://github.com/binance/binance-spot-api-docs)
 
 - Supported APIs:
     - `/api/*`
@@ -16,67 +14,44 @@ This is a lightweight library that works as a connector to [Binance public API](
 - Customizable base URL, request timeout and HTTP proxy
 - Response metadata can be displayed
 
+## ToDo:  
+
+- async websocket
+- proxy
+- 
 ## Installation
 
 ```bash
-pip install binance-connector
+git clone git@github.com:PokoRoko/ASYNC-binance-connector-python.git
 ```
-
-## Documentation
-
-[https://binance-connector.readthedocs.io](https://binance-connector.readthedocs.io)
 
 ## RESTful APIs
 
 Usage examples:
 ```python
-from binance.spot import Spot 
+import asyncio
+import os
+from binance.spot import Spot
 
-client = Spot()
+api_key = "<API_KEY>"
+api_secret = "<API_SECRET>"
 
-# Get server timestamp
-print(client.time())
-# Get klines of BTCUSDT at 1m interval
-print(client.klines("BTCUSDT", "1m"))
-# Get last 10 klines of BNBUSDT at 1h interval
-print(client.klines("BNBUSDT", "1h", limit=10))
 
-# api key/secret are required for user data endpoints
-client = Spot(key='<api_key>', secret='<api_secret>')
+async def main():
+    key = os.getenv("API_KEY")
+    secret = os.getenv("API_SECRET")
 
-# Get account and balance information
-print(client.account())
+    spot_client = Spot(key=key, secret=secret)
+    res = await spot_client.account_snapshot("SPOT")
+    print(res)
 
-# Post a new order
-params = {
-    'symbol': 'BTCUSDT',
-    'side': 'SELL',
-    'type': 'LIMIT',
-    'timeInForce': 'GTC',
-    'quantity': 0.002,
-    'price': 9500
-}
-
-response = client.new_order(**params)
-print(response)
+if __name__ == "__main__":
+    loop = asyncio.new_event_loop()
+    loop.run_until_complete(main())
 ```
-Please find `examples` folder to check for more endpoints.
+### !!! Outdated information !!!  
+Please find `examples` folder to check for more endpoints. 
 
-### Testnet
-
-[Spot Testnet](https://testnet.binance.vision/) is available, it can be used to test `/api/*` endpoints.
-
-- `/sapi/*` endpoints are not available.
-- No UI.
-- Steps to setup testnet API key.  [https://dev.binance.vision/t/99](https://dev.binance.vision/t/99)
-
-To use testnet:
-```python
-from binance.spot import Spot as Client
-
-client = Client(base_url='https://testnet.binance.vision')
-print(client.time())
-```
 
 ### Base URL
 
@@ -91,14 +66,6 @@ in case of performance issues:
 
 PEP8 suggests _lowercase with words separated by underscores_, but for this connector,
 the methods' optional parameters should follow their exact naming as in the API documentation.
-
-```python
-# Recognised parameter name
-response = client.cancel_oco_order('BTCUSDT', orderListId=1)
-
-# Unrecognised parameter name
-response = client.cancel_oco_order('BTCUSDT', order_list_id=1)
-```
 
 ### RecvWindow parameter
 
@@ -127,7 +94,7 @@ client= Client(timeout=1)
 
 ### Proxy
 
-Proxy is supported.
+NOW Proxy not is supported.
 
 ```python
 from binance.spot import Spot as Client
@@ -227,7 +194,7 @@ ws_client = WebsocketClient(stream_url='wss://testnet.binance.vision')
 ```
 
 ## Test Case
-
+Now test dont work in fork. ToDo
 ```python
 # In case packages are not installed yet
 pip install -r requirements/requirements-test.txt
