@@ -6,7 +6,6 @@ import logging
 import hashlib
 from json import JSONDecodeError
 
-
 from .__version__ import __version__
 from binance.error import ClientError, ServerError
 from binance.lib.utils import get_timestamp
@@ -111,7 +110,7 @@ class API(object):
                 "url": url,
                 "params": self._prepare_params(payload),
                 "timeout": self.timeout,
-                # "proxies": self.proxies,
+                "proxy": self.proxies,
             }
         )
         res = self._dispatch_request(http_method)(**params)
@@ -122,7 +121,6 @@ class API(object):
             data = await response.json()
         except ValueError:
             data = response.text
-        await self.session.close()
         result = {}
 
         if self.show_limit_usage:

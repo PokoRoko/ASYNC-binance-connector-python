@@ -5,7 +5,7 @@ class SpotWebsocketClient(BinanceWebsocketClient):
     def __init__(self, stream_url="wss://stream.binance.com:9443"):
         super().__init__(stream_url)
 
-    def agg_trade(self, symbol: str, id: int, callback, **kwargs):
+    async def agg_trade(self, symbol: str, id: int, callback, **kwargs):
         """Aggregate Trade Streams
 
         The Aggregate Trade Streams push trade information that is aggregated for a single taker order.
@@ -14,11 +14,11 @@ class SpotWebsocketClient(BinanceWebsocketClient):
 
         Update Speed: Real-time
         """
-        self.live_subscribe(
+        await self.live_subscribe(
             "{}@aggTrade".format(symbol.lower()), id, callback, **kwargs
         )
 
-    def trade(self, symbol: str, id: int, callback, **kwargs):
+    async def trade(self, symbol: str, id: int, callback, **kwargs):
         """Trade Streams
 
         The Trade Streams push raw trade information; each trade has a unique buyer and seller.
@@ -27,9 +27,9 @@ class SpotWebsocketClient(BinanceWebsocketClient):
 
         Update Speed: Real-time
         """
-        self.live_subscribe("{}@trade".format(symbol.lower()), id, callback, **kwargs)
+        await self.live_subscribe("{}@trade".format(symbol.lower()), id, callback, **kwargs)
 
-    def kline(self, symbol: str, id: int, interval: str, callback, **kwargs):
+    async def kline(self, symbol: str, id: int, interval: str, callback, **kwargs):
         """Kline/Candlestick Streams
 
         The Kline/Candlestick Stream push updates to the current klines/candlestick every second.
@@ -58,11 +58,11 @@ class SpotWebsocketClient(BinanceWebsocketClient):
         Update Speed: 2000ms
         """
 
-        self.live_subscribe(
+        await self.live_subscribe(
             "{}@kline_{}".format(symbol.lower(), interval), id, callback, **kwargs
         )
 
-    def mini_ticker(self, id: int, callback, symbol=None, **kwargs):
+    async def mini_ticker(self, id: int, callback, symbol=None, **kwargs):
         """Individual symbol or all symbols mini ticker
 
         24hr rolling window mini-ticker statistics.
@@ -75,13 +75,13 @@ class SpotWebsocketClient(BinanceWebsocketClient):
         """
 
         if symbol is None:
-            self.live_subscribe("!miniTicker@arr", id, callback, **kwargs)
+            await self.live_subscribe("!miniTicker@arr", id, callback, **kwargs)
         else:
-            self.live_subscribe(
+            await self.live_subscribe(
                 "{}@miniTicker".format(symbol.lower()), id, callback, **kwargs
             )
 
-    def ticker(self, id: int, callback, symbol=None, **kwargs):
+    async def ticker(self, id: int, callback, symbol=None, **kwargs):
         """Individual symbol or all symbols ticker
 
         24hr rolling window ticker statistics for a single symbol.
@@ -94,13 +94,13 @@ class SpotWebsocketClient(BinanceWebsocketClient):
         """
 
         if symbol is None:
-            self.live_subscribe("!ticker@arr", id, callback, **kwargs)
+            await self.live_subscribe("!ticker@arr", id, callback, **kwargs)
         else:
-            self.live_subscribe(
+            await self.live_subscribe(
                 "{}@ticker".format(symbol.lower()), id, callback, **kwargs
             )
 
-    def book_ticker(self, id: int, callback, symbol=None, **kwargs):
+    async def book_ticker(self, id: int, callback, symbol=None, **kwargs):
         """Individual symbol or all book ticker
 
         Pushes any update to the best bid or ask's price or quantity in real-time for a specified symbol.
@@ -112,13 +112,13 @@ class SpotWebsocketClient(BinanceWebsocketClient):
         """
 
         if symbol is None:
-            self.live_subscribe("!bookTicker", id, callback, **kwargs)
+            await self.live_subscribe("!bookTicker", id, callback, **kwargs)
         else:
-            self.live_subscribe(
+            await self.live_subscribe(
                 "{}@bookTicker".format(symbol.lower()), id, callback, **kwargs
             )
 
-    def partial_book_depth(
+    async def partial_book_depth(
         self, symbol: str, id: int, level, speed, callback, **kwargs
     ):
         """Partial Book Depth Streams
@@ -129,14 +129,14 @@ class SpotWebsocketClient(BinanceWebsocketClient):
 
         Update Speed: 1000ms or 100ms
         """
-        self.live_subscribe(
+        await self.live_subscribe(
             "{}@depth{}@{}ms".format(symbol.lower(), level, speed),
             id,
             callback,
             **kwargs
         )
 
-    def rolling_window_ticker(
+    async def rolling_window_ticker(
         self, symbol: str, windowSize: str, id: int, callback, **kwargs
     ):
         """Rolling window ticker statistics for a single symbol, computed over multiple windows.
@@ -149,11 +149,11 @@ class SpotWebsocketClient(BinanceWebsocketClient):
 
         Note: This stream is different from the <symbol>@ticker stream. The open time "O" always starts on a minute, while the closing time "C" is the current time of the update. As such, the effective window might be up to 59999ms wider that <window_size>.
         """
-        self.live_subscribe(
+        await self.live_subscribe(
             "{}@ticker_{}".format(symbol.lower(), windowSize), id, callback, **kwargs
         )
 
-    def rolling_window_ticker_all_symbols(
+    async def rolling_window_ticker_all_symbols(
         self, windowSize: str, id: int, callback, **kwargs
     ):
         """All Market Rolling Window Statistics Streams
@@ -166,9 +166,9 @@ class SpotWebsocketClient(BinanceWebsocketClient):
 
         Update Speed: 1000ms
         """
-        self.live_subscribe("!ticker_{}@arr".format(windowSize), id, callback, **kwargs)
+        await self.live_subscribe("!ticker_{}@arr".format(windowSize), id, callback, **kwargs)
 
-    def diff_book_depth(self, symbol: str, id: int, speed, callback, **kwargs):
+    async def diff_book_depth(self, symbol: str, id: int, speed, callback, **kwargs):
         """Diff. Depth Stream
 
         Stream Name: <symbol>@depth OR <symbol>@depth@100ms
@@ -177,10 +177,10 @@ class SpotWebsocketClient(BinanceWebsocketClient):
 
         Order book price and quantity depth updates used to locally manage an order book.
         """
-        self.live_subscribe(
+        await self.live_subscribe(
             "{}@depth@{}ms".format(symbol.lower(), speed), id, callback, **kwargs
         )
 
-    def user_data(self, listen_key: str, id: int, callback, **kwargs):
+    async def user_data(self, listen_key: str, id: int, callback, **kwargs):
         """Listen to user data by using the provided listen_key"""
-        self.live_subscribe(listen_key, id, callback, **kwargs)
+        await self.live_subscribe(listen_key, id, callback, **kwargs)
