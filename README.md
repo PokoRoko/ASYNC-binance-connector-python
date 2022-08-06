@@ -14,11 +14,7 @@ This is a lightweight library that works as a ASYNC connector to [Binance public
 - Customizable base URL, request timeout and HTTP proxy
 - Response metadata can be displayed
 
-## ToDo:  
 
-- async websocket
-- proxy
-- 
 ## Installation
 
 ```bash
@@ -49,9 +45,66 @@ if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     loop.run_until_complete(main())
 ```
-### !!! Outdated information !!!  
-Please find `examples` folder to check for more endpoints. 
 
+
+## WebSocket
+
+Usage examples:
+```python
+import asyncio
+import os
+import logging
+from binance.lib.utils import config_logging
+from binance.spot import Spot
+from binance.websocket.spot.websocket_client import SpotWebsocketClient
+
+config_logging(logging, logging.DEBUG)
+
+
+def message_handler(message):
+    print(message)
+
+
+async def user_data(ws_client, id):
+    key = os.getenv("<API_KEY>")
+    secret = "<API_SECRET>"
+    client = Spot(key=key,
+                  secret=secret,
+                  # base_url="https://testnet.binance.vision"
+                  )
+
+    listen_key = await client.new_listen_key()
+    await client.session.close()
+
+    try:
+        logging.info(f"Receiving listen key : {listen_key['listenKey']}")
+    except KeyError:
+        logging.error(f"Error get listen key : {listen_key}")
+        return
+
+    await ws_client.user_data(
+        listen_key=listen_key["listenKey"],
+        id=id,
+        callback=message_handler,
+    )
+
+
+async def test_stop_event(ws_client, id):
+    for i in range(7):
+        print(i)
+        await asyncio.sleep(1)
+        await ws_client.stop_by_id(id)
+
+
+async def main():
+    id = 1
+    ws_client = SpotWebsocketClient()
+    await asyncio.gather(test_stop_event(ws_client, id), user_data(ws_client, id))
+
+
+loop = asyncio.new_event_loop()
+loop.run_until_complete(main())
+```
 
 ### Base URL
 
@@ -105,36 +158,6 @@ client= Client(proxies=proxies)
 ```
 
 
-### Response Metadata
-
-The Binance API server provides weight usages in the headers of each response.
-You can display them by initializing the client with `show_limit_usage=True`:
-
-```python
-from binance.spot import Spot as Client
-
-client = Client(show_limit_usage=True)
-print(client.time())
-```
-returns:
-
-```python
-{'data': {'serverTime': 1587990847650}, 'limit_usage': {'x-mbx-used-weight': '31', 'x-mbx-used-weight-1m': '31'}}
-```
-You can also display full response metadata to help in debugging:
-
-```python
-client = Client(show_header=True)
-print(client.time())
-```
-
-returns:
-
-```python
-{'data': {'serverTime': 1587990847650}, 'header': {'Context-Type': 'application/json;charset=utf-8', ...}}
-```
-
-If `ClientError` is received, it'll display full response meta information.
 
 ### Display logs
 
@@ -153,32 +176,6 @@ There are 2 types of error returned from the library:
 - `binance.error.ServerError`
     - This is thrown when server returns `5XX`, it's an issue from server side.
 
-## Websocket
-
-```python
-from binance.websocket.spot.websocket_client import SpotWebsocketClient as WebsocketClient
-
-def message_handler(message):
-    print(message)
-
-ws_client = WebsocketClient()
-ws_client.start()
-
-ws_client.mini_ticker(
-    symbol='bnbusdt',
-    id=1,
-    callback=message_handler,
-)
-
-# Combine selected streams
-ws_client.instant_subscribe(
-    stream=['bnbusdt@bookTicker', 'ethusdt@bookTicker'],
-    callback=message_handler,
-)
-
-ws_client.stop()
-```
-More websocket examples are available in the `examples` folder
 
 ### Heartbeat
 

@@ -6,8 +6,6 @@ import logging
 from binance.lib.utils import config_logging
 from binance.spot import Spot
 from binance.websocket.spot.websocket_client import SpotWebsocketClient
-from dotenv import load_dotenv
-load_dotenv()
 
 config_logging(logging, logging.DEBUG)
 
@@ -17,8 +15,8 @@ def message_handler(message):
 
 
 async def user_data(ws_client, id):
-    key = os.getenv("API_KEY")
-    secret = os.getenv("API_SECRET")
+    key = os.getenv("<API_KEY>")
+    secret = "<API_SECRET>"
     client = Spot(key=key,
                   secret=secret,
                   # base_url="https://testnet.binance.vision"
@@ -55,4 +53,3 @@ async def main():
 
 loop = asyncio.new_event_loop()
 loop.run_until_complete(main())
-
